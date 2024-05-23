@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import User from './pages/User';
+import UpperNavbar from './components/UpperNavbar';
+import LowerNavbar from './components/LowerNavbar';
+import './App.css'; // Import the CSS file
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <UpperNavbar />
+        <div id="content" style={{ paddingTop: '64px' }}> {/* Add padding to avoid content being hidden by the upper navbar */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/user" element={<User />} />
+          </Routes>
+        </div>
+        <LowerNavbar />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
