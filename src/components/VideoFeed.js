@@ -1,17 +1,12 @@
 // src/components/VideoFeed.js
+
 import React from 'react';
 import VideoCard from './VideoCard';
+import './VideoFeed.css'; // Ensure you have this CSS file for styling
 
-const VideoFeed = () => {
-  const videos = [
-    { id: 1, url: 'video1.mp4', description: 'First video' },
-    { id: 2, url: 'video2.mp4', description: 'Second video' },
-    { id: 3, url: 'video2.mp4', description: 'third video' },
-    // Add more video objects as needed
-  ];
-
+const VideoFeed = ({ videos }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="video-feed">
       {videos.map((video) => (
         <VideoCard key={video.id} video={video} />
       ))}

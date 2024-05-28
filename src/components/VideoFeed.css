@@ -1,0 +1,17 @@
+/* src/components/VideoFeed.css */
+
+.video-feed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Space between videos */
+    justify-content: center; /* Center the videos horizontally */
+    padding: 16px;
+  }
+  
+  .video-feed > div {
+    flex: 1 1 calc(50% - 32px); /* Each video takes up 50% width minus gap */
+    box-sizing: border-box;
+    margin: 16px; /* Add some margin around each video */
+    max-width: 500px; /* Optional: Set a max width to prevent videos from being too wide */
+  }
+  
