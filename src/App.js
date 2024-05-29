@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import User from './pages/User';
 import UpperNavbar from './components/UpperNavbar';
 import LowerNavbar from './components/LowerNavbar';
+import Register from './pages/Register'; // Import the Register page
+import Login from './pages/Login'; // Import the Login page
 import './App.css'; // Import the CSS file
 
 const App = () => {
@@ -16,6 +18,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/user" element={<User />} />
+            <Route path="/register" element={<Register />} /> {/* Add route for Register page */}
+            <Route path="/login" element={<Login />} /> {/* Add route for Login page */}
           </Routes>
         </div>
         <LowerNavbar />

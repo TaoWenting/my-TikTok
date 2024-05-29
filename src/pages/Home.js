@@ -1,8 +1,7 @@
 // src/pages/Home.js
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../redux/actions';
+import { fetchVideos } from '../redux/actions/videoActions';
 import VideoFeed from '../components/VideoFeed';
 
 const Home = () => {
