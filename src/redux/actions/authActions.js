@@ -1,3 +1,4 @@
+// src/redux/actions/authActions.js
 import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILURE,
@@ -5,7 +6,6 @@ import {
   USER_LOGIN_FAILURE
 } from '../actionTypes';
 
-// Define action creators for user registration and login success/failure
 export const registerUserSuccess = user => ({
   type: USER_REGISTER_SUCCESS,
   payload: user,
@@ -13,7 +13,7 @@ export const registerUserSuccess = user => ({
 
 export const registerUserFailure = error => ({
   type: USER_REGISTER_FAILURE,
-  payload: error,
+  payload: error.message || error,
 });
 
 export const loginUserSuccess = user => ({
@@ -23,13 +23,12 @@ export const loginUserSuccess = user => ({
 
 export const loginUserFailure = error => ({
   type: USER_LOGIN_FAILURE,
-  payload: error,
+  payload: error.message || error,
 });
 
-// Define asynchronous action creator for user registration
 export const registerUser = (userData) => {
   return dispatch => {
-    fetch('http://localhost:3001/users', {
+    fetch('http://localhost:5000/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,15 +41,19 @@ export const registerUser = (userData) => {
   };
 };
 
-// Define asynchronous action creator for user login
 export const loginUser = (userData) => {
   return dispatch => {
-    fetch('http://localhost:5000/api/users')
+    fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
       .then(response => response.json())
-      .then(users => {
-        const user = users.find(user => user.email === userData.email && user.password === userData.password);
-        if (user) {
-          dispatch(loginUserSuccess(user));
+      .then(data => {
+        if (data.token) {
+          dispatch(loginUserSuccess(data));
         } else {
           dispatch(loginUserFailure('Invalid email or password'));
         }

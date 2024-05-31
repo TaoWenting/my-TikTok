@@ -1,15 +1,16 @@
-// src/pages/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const error = useSelector(state => state.auth.error);
+  const { isAuthenticated, error } = useSelector(state => state.auth);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -18,8 +19,15 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log("Form Data: ", formData); // Add console log for debugging
     dispatch(loginUser(formData));
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div>
@@ -41,7 +49,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p>{error.message || error}</p>} {/* Ensure error is rendered as a string */}
     </div>
   );
 };
