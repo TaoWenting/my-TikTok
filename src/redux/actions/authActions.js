@@ -1,9 +1,9 @@
-// src/redux/actions/authActions.js
 import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILURE,
   USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAILURE
+  USER_LOGIN_FAILURE,
+  USER_LOGOUT
 } from '../actionTypes';
 
 export const registerUserSuccess = user => ({
@@ -24,6 +24,10 @@ export const loginUserSuccess = user => ({
 export const loginUserFailure = error => ({
   type: USER_LOGIN_FAILURE,
   payload: error.message || error,
+});
+
+export const logoutUser = () => ({
+  type: USER_LOGOUT,
 });
 
 export const registerUser = (userData) => {
@@ -59,5 +63,23 @@ export const loginUser = (userData) => {
         }
       })
       .catch(error => dispatch(loginUserFailure(error)));
+  };
+};
+
+export const logout = () => {
+  return dispatch => {
+    fetch('http://localhost:5000/api/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        dispatch(logoutUser());
+      })
+      .catch(error => {
+        console.error('Logout error:', error);
+      });
   };
 };

@@ -1,10 +1,18 @@
-// src/components/UpperNavbar.js
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, InputBase, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { logout } from '../redux/actions/authActions'; // Make sure you have this action
 
 const UpperNavbar = () => {
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector(state => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <AppBar position="fixed" className="upper-navbar">
       <Toolbar>
@@ -21,12 +29,19 @@ const UpperNavbar = () => {
             style={{ color: 'inherit', paddingLeft: '48px' }}
           />
         </div>
-        <Button color="inherit" component={Link} to="/register" style={{ marginRight: '16px' }}>
-          Register
-        </Button>
-        <Button color="inherit" component={Link} to="/login">
-          Login
-        </Button>
+        {isAuthenticated ? (
+          <div className="navbar-user" style={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body1" style={{ marginRight: '16px' }}>
+              {user.username}
+            </Typography>
+            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+          </div>
+        ) : (
+          <div className="navbar-auth" style={{ display: 'flex', alignItems: 'center' }}>
+            <Button color="inherit" component={Link} to="/login">Login</Button>
+            <Button color="inherit" component={Link} to="/register">Register</Button>
+          </div>
+        )}
       </Toolbar>
     </AppBar>
   );

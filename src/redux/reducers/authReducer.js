@@ -3,7 +3,8 @@ import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILURE,
   USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAILURE
+  USER_LOGIN_FAILURE,
+  USER_LOGOUT
 } from '../actionTypes';
 
 const initialState = {
@@ -30,6 +31,13 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: action.payload,
       };
+      case USER_LOGOUT:
+        return {
+          ...state,
+          isAuthenticated: false,
+          user: null,
+          error: null
+        };
     default:
       return state;
   }

@@ -1,0 +1,23 @@
+.upper-navbar {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .navbar-user, .navbar-auth {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-user span {
+    margin-right: 10px;
+  }
+  
+  .navbar-auth a {
+    margin-right: 10px;
+  }
+  
