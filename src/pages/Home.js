@@ -1,37 +1,50 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchVideos } from '../redux/actions/videoActions';
+import { fetchVideos, fetchPublicVideos } from '../redux/actions/videoActions';
+import VideoFeed from '../components/VideoFeed';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const allVideos = useSelector(state => state.videos.allVideos);
+  const allVideos = useSelector((state) => state.videos.allVideos);
+  const publicVideos = useSelector((state) => state.videos.publicVideos);
 
   useEffect(() => {
     dispatch(fetchVideos());
+    dispatch(fetchPublicVideos());
   }, [dispatch]);
+  
+  console.log("All Videos Data: ", allVideos);
+  console.log("Public Videos Data: ", publicVideos);
 
-  if (!allVideos) {
+  if (!allVideos || !publicVideos) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
       <h2>Home Page</h2>
-      <div>
-        <h3>All Videos</h3>
-        {allVideos.length > 0 ? (
-          allVideos.map(video => (
-            <div key={video.id}>
-              <h4>{video.title}</h4>
-              <p>{video.description}</p>
-              <video src={video.url} controls />
-              <p>Likes: {video.likes}</p>
-            </div>
-          ))
-        ) : (
-          <p>No videos available</p>
-        )}
-      </div>
+      {allVideos.length > 0 && publicVideos.length > 0 ? (
+        <>
+          <div>
+            <h3>All Videos</h3>
+            {allVideos.length > 0 ? (
+              <VideoFeed videos={allVideos} />
+            ) : (
+              <p>No videos available</p>
+            )}
+          </div>
+          <div>
+            <h3>Public Videos</h3>
+            {publicVideos.length > 0 ? (
+              <VideoFeed videos={publicVideos} />
+            ) : (
+              <p>No public videos available</p>
+            )}
+          </div>
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };

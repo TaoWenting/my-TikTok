@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../redux/actions/videoActions';
+import React from 'react';
 import VideoCard from '../components/VideoCard';
 import './VideoFeed.css'; // Assuming you have a CSS file for styling
 
-const VideoFeed = () => {
-  const dispatch = useDispatch();
-  const videos = useSelector(state => state.videos.videos || []); // Ensure videos is an array
-
-  useEffect(() => {
-    dispatch(fetchVideos());
-  }, [dispatch]);
-
+const VideoFeed = ({ videos }) => {
   if (!Array.isArray(videos)) {
     return <div>Loading...</div>;
   }

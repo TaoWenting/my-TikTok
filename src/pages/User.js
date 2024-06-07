@@ -1,42 +1,25 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { fetchUserVideos } from '../redux/actions/videoActions';
+import VideoFeed from '../components/VideoFeed';
 
-const User = () => {
+const UserPage = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
+  const { userId } = useParams();
   const userVideos = useSelector(state => state.videos.userVideos);
 
   useEffect(() => {
-    if (user) {
-      dispatch(fetchUserVideos(user.id));
-    }
-  }, [user, dispatch]);
-
-  if (!user || !userVideos) {
-    return <div>Loading...</div>;
-  }
+    dispatch(fetchUserVideos(userId));
+  }, [dispatch, userId]);
 
   return (
     <div>
       <h2>User Page</h2>
-      <div>
-        <h3>Your Videos</h3>
-        {userVideos.length > 0 ? (
-          userVideos.map(video => (
-            <div key={video.id}>
-              <h4>{video.title}</h4>
-              <p>{video.description}</p>
-              <video src={video.url} controls />
-              <p>Likes: {video.likes}</p>
-            </div>
-          ))
-        ) : (
-          <p>No videos available</p>
-        )}
-      </div>
+      <h3>User's Videos</h3>
+      <VideoFeed videos={userVideos} />
     </div>
   );
 };
 
-export default User;
+export default UserPage;

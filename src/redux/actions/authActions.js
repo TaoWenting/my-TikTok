@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILURE,
@@ -6,22 +7,22 @@ import {
   USER_LOGOUT
 } from '../actionTypes';
 
-export const registerUserSuccess = user => ({
+export const registerUserSuccess = (user) => ({
   type: USER_REGISTER_SUCCESS,
   payload: user,
 });
 
-export const registerUserFailure = error => ({
+export const registerUserFailure = (error) => ({
   type: USER_REGISTER_FAILURE,
   payload: error.message || error,
 });
 
-export const loginUserSuccess = user => ({
+export const loginUserSuccess = (user) => ({
   type: USER_LOGIN_SUCCESS,
   payload: user,
 });
 
-export const loginUserFailure = error => ({
+export const loginUserFailure = (error) => ({
   type: USER_LOGIN_FAILURE,
   payload: error.message || error,
 });
@@ -31,54 +32,34 @@ export const logoutUser = () => ({
 });
 
 export const registerUser = (userData) => {
-  return dispatch => {
-    fetch('http://localhost:5000/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => response.json())
-      .then(data => dispatch(registerUserSuccess(data)))
-      .catch(error => dispatch(registerUserFailure(error)));
+  return (dispatch) => {
+    axios.post('http://localhost:5000/api/auth/register', userData)
+      .then((response) => dispatch(registerUserSuccess(response.data)))
+      .catch((error) => dispatch(registerUserFailure(error)));
   };
 };
 
 export const loginUser = (userData) => {
-  return dispatch => {
-    fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          dispatch(loginUserSuccess(data));
+  return (dispatch) => {
+    axios.post('http://localhost:5000/api/auth/login', userData)
+      .then((response) => {
+        if (response.data.token) {
+          dispatch(loginUserSuccess(response.data));
         } else {
           dispatch(loginUserFailure('Invalid email or password'));
         }
       })
-      .catch(error => dispatch(loginUserFailure(error)));
+      .catch((error) => dispatch(loginUserFailure(error)));
   };
 };
 
 export const logout = () => {
-  return dispatch => {
-    fetch('http://localhost:5000/api/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
+  return (dispatch) => {
+    axios.post('http://localhost:5000/api/auth/logout')
+      .then(() => {
         dispatch(logoutUser());
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Logout error:', error);
       });
   };
