@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, InputBase, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { logout } from '../redux/actions/authActions'; // Make sure you have this action
+import { logout } from '../redux/actions/authActions';
 
 const UpperNavbar = () => {
   const dispatch = useDispatch();
@@ -31,9 +31,11 @@ const UpperNavbar = () => {
         </div>
         {isAuthenticated ? (
           <div className="navbar-user" style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body1" style={{ marginRight: '16px' }}>
-              {user.username}
-            </Typography>
+            {user && user.username && ( // Add conditional check for user.username
+              <Typography variant="body1" style={{ marginRight: '16px' }}>
+                {user.username}
+              </Typography>
+            )}
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
           </div>
         ) : (

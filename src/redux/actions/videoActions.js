@@ -47,8 +47,16 @@ export const fetchVideos = () => {
 };
 
 export const fetchUserVideos = (userId) => {
-  return (dispatch) => {
-    axios.get(`http://localhost:5000/api/users/${userId}/videos`)
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
+
+    const config = {
+      headers: {
+        'x-auth-token': token,
+      },
+    };
+
+    axios.get(`http://localhost:5000/users/${userId}/videos`, config)
       .then((response) => dispatch(fetchUserVideosSuccess(response.data)))
       .catch((error) => dispatch(fetchUserVideosFailure(error.message)));
   };

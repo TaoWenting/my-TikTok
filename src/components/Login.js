@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../redux/actions/authActions';
+import { loginUser } from '../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Login = ({ onLogin }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
     password: ''
   });
-  const error = useSelector(state => state.auth.error);
+  const { isAuthenticated, user, error } = useSelector(state => state.auth);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -18,26 +19,27 @@ const Register = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(registerUser(formData));
+    dispatch(loginUser(formData));
   };
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      onLogin(user.id); // Assuming user object has an 'id' property
+      navigate('/user'); // Redirect to the user page
+    }
+  }, [isAuthenticated, user, onLogin, navigate]);
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-        />
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
+          autoComplete="email"
         />
         <input
           type="password"
@@ -45,12 +47,13 @@ const Register = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          autoComplete="current-password"
         />
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p>{error.message || error}</p>}
     </div>
   );
 };
 
-export default Register;
+export default Login;

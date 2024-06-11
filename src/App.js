@@ -1,28 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
-import User from './pages/User';
+import UserPage from './pages/UserPage'; // Import UserPage
 import UpperNavbar from './components/UpperNavbar';
 import LowerNavbar from './components/LowerNavbar';
-import Register from './pages/Register';
-import Login from './pages/Login';
+import Register from './components/Register';
+import Login from './components/Login';
 import './App.css';
 
 const App = () => {
-  const isAuthenticated = false; // Replace this with your actual authentication logic
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState(null); // State to store user ID
+
+  const handleLogin = (userId) => {
+    setIsAuthenticated(true);
+    setUserId(userId); // Set the user ID after login
+    console.log("User ID:", userId); // Log the userId to the console
+  };
 
   return (
     <Router>
       <div>
         <UpperNavbar />
-        <div id="content" style={{ paddingTop: '64px' }}> {/* Add padding to avoid content being hidden by the upper navbar */}
+        <div id="content" style={{ paddingTop: '64px' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route
               path="/user"
-              element={isAuthenticated ? <User /> : <Navigate to="/login" />}
+              element={isAuthenticated ? <UserPage userId={userId} /> : <Navigate to="/login" />}
             />
           </Routes>
         </div>
