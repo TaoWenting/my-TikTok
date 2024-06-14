@@ -1,12 +1,48 @@
 import axios from 'axios';
 import {
+  UPLOAD_VIDEO_SUCCESS,
+  SET_VIDEO_PRIVACY_SUCCESS,
   FETCH_VIDEOS_SUCCESS,
   FETCH_VIDEOS_FAILURE,
   FETCH_USER_VIDEOS_SUCCESS,
   FETCH_USER_VIDEOS_FAILURE,
   FETCH_PUBLIC_VIDEOS_SUCCESS,
-  FETCH_PUBLIC_VIDEOS_FAILURE,
+  FETCH_PUBLIC_VIDEOS_FAILURE
 } from '../actionTypes';
+
+// Action creators for video upload and privacy settings
+
+export const uploadVideo = (formData, token) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
+    };
+    const response = await axios.post('http://localhost:5000/api/videos/upload', formData, config);
+    dispatch({ type: UPLOAD_VIDEO_SUCCESS, payload: response.data });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading video:', error);
+  }
+};
+
+export const setVideoPrivacy = (videoId, isPublic, token) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+    const response = await axios.post(`http://localhost:5000/api/videos/set-privacy/${videoId}`, { public: isPublic }, config);
+    dispatch({ type: SET_VIDEO_PRIVACY_SUCCESS, payload: response.data });
+  } catch (error) {
+    console.error('Error setting video privacy:', error);
+  }
+};
+
+// Action creators for fetching videos
 
 export const fetchVideosSuccess = (videos) => ({
   type: FETCH_VIDEOS_SUCCESS,
@@ -52,7 +88,7 @@ export const fetchUserVideos = (userId) => {
 
     const config = {
       headers: {
-        'x-auth-token': token,
+        'Authorization': `Bearer ${token}`,
       },
     };
 

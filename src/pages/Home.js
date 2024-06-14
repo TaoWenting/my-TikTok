@@ -23,16 +23,8 @@ const Home = () => {
   return (
     <div>
       <h2>Home Page</h2>
-      {allVideos.length > 0 && publicVideos.length > 0 ? (
+      {publicVideos.length > 0 ? (
         <>
-          <div>
-            <h3>All Videos</h3>
-            {allVideos.length > 0 ? (
-              <VideoFeed videos={allVideos} />
-            ) : (
-              <p>No videos available</p>
-            )}
-          </div>
           <div>
             <h3>Public Videos</h3>
             {publicVideos.length > 0 ? (

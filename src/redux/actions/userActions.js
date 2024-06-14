@@ -19,16 +19,16 @@ export const fetchUserVideosFailure = (error) => ({
   payload: error,
 });
 
-export const fetchUserVideos = (userId, token) => async (dispatch) => {
-  dispatch(fetchUserVideosRequest());
-  try {
-    const response = await axios.get(`http://localhost:5000/users/${userId}/videos`, {
+export const fetchUserVideos = (userId) => {
+  return (dispatch) => {
+    const token = localStorage.getItem('token'); // Ensure token is retrieved from storage
+    axios.get(`http://localhost:5000/users/${userId}/videos`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(fetchUserVideosSuccess(response.data));
-  } catch (error) {
-    dispatch(fetchUserVideosFailure(error.message));
-  }
+        Authorization: `Bearer ${token}` // Include the token in the request headers
+      }
+    })
+      .then((response) => dispatch(fetchUserVideosSuccess(response.data)))
+      .catch((error) => dispatch(fetchUserVideosFailure(error.message)));
+  };
 };
+
