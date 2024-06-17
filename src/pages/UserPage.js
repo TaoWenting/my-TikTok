@@ -6,13 +6,13 @@ import VideoFeed from '../components/VideoFeed';
 const UserPage = ({ userId }) => { // Receive userId as props
   const dispatch = useDispatch();
   const userVideos = useSelector(state => state.user.videos); // Access user videos from state
+  const token = useSelector(state => state.auth.token); // Retrieve token from Redux state
 
   useEffect(() => {
-    if (userId) { // Fetch videos only if userId is available
-      const token = localStorage.getItem('token');
-      dispatch(fetchUserVideos(userId, token));
+    if (userId && token) { // Fetch videos only if userId and token are available
+      dispatch(fetchUserVideos(userId, token)); // Pass userId and token to fetchUserVideos
     }
-  }, [dispatch, userId]);
+  }, [dispatch, userId, token]);
 
   return (
     <div>
