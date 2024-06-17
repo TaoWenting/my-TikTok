@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserVideos } from '../redux/actions/userActions'; // Import fetchUserVideos
+import { fetchUserVideos } from '../redux/actions/videoActions'; // Import fetchUserVideos
 import VideoFeed from '../components/VideoFeed';
 
 const UserPage = ({ userId }) => { // Receive userId as props
