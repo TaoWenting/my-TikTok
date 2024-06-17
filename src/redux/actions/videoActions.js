@@ -42,6 +42,7 @@ export const setVideoPrivacy = (videoId, isPublic, token) => async dispatch => {
   }
 };
 
+
 // Action creators for fetching videos
 
 export const fetchVideosSuccess = (videos) => ({
