@@ -3,6 +3,7 @@ import VideoCard from '../components/VideoCard';
 import './VideoFeed.css'; // Assuming you have a CSS file for styling
 
 const VideoFeed = ({ videos }) => {
+
   if (!Array.isArray(videos)) {
     return <div>Loading...</div>;
   }

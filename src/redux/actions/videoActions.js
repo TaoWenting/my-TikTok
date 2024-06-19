@@ -7,7 +7,9 @@ import {
   FETCH_USER_VIDEOS_SUCCESS,
   FETCH_USER_VIDEOS_FAILURE,
   FETCH_PUBLIC_VIDEOS_SUCCESS,
-  FETCH_PUBLIC_VIDEOS_FAILURE
+  FETCH_PUBLIC_VIDEOS_FAILURE,
+  LIKE_VIDEO_SUCCESS,
+  LIKE_VIDEO_FAILURE
 } from '../actionTypes';
 
 // Action creators for video upload and privacy settings
@@ -105,5 +107,82 @@ export const fetchPublicVideos = () => {
     axios.get('http://localhost:5000/api/videos/public')
       .then((response) => dispatch(fetchPublicVideosSuccess(response.data)))
       .catch((error) => dispatch(fetchPublicVideosFailure(error.message)));
+  };
+};
+
+export const likeVideo = (videoId, token) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.post(`http://localhost:5000/api/videos/like/${videoId}`, {}, config);
+
+    dispatch({
+      type: LIKE_VIDEO_SUCCESS,
+      payload: response.data, // Assuming the API returns the updated video object
+    });
+
+  } catch (error) {
+    console.error('Error liking video:', error);
+    dispatch({
+      type: LIKE_VIDEO_FAILURE,
+      payload: error.message || 'Failed to like video',
+    });
+  }
+};
+
+// export const likeVideo = (videoId, token) => async (dispatch) => {
+//   try {
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     };
+
+//     const response = await axios.post(`http://localhost:5000/api/videos/like/${videoId}`, {}, config);
+
+//     dispatch({
+//       type: LIKE_VIDEO_SUCCESS,
+//       payload: response.data,
+//     });
+
+//   } catch (error) {
+//     console.error('Error liking video:', error);
+//     dispatch({
+//       type: LIKE_VIDEO_FAILURE,
+//       payload: error.message || 'Failed to like video',
+//     });
+//   }
+// };
+
+// export const likeVideo = (videoId, token) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`http://localhost:5000/api/videos/like/${videoId}`, {}, {
+//         headers: {
+//           'Authorization': `Bearer ${token}`
+//         }
+//       });
+//       dispatch(likeVideoSuccess(response.data));
+//     } catch (error) {
+//       dispatch(likeVideoFailure(error.message));
+//     }
+//   };
+// };
+
+export const likeVideoSuccess = (updatedVideo) => {
+  return {
+    type: LIKE_VIDEO_SUCCESS,
+    payload: updatedVideo
+  };
+};
+
+export const likeVideoFailure = (error) => {
+  return {
+    type: LIKE_VIDEO_FAILURE,
+    payload: error
   };
 };

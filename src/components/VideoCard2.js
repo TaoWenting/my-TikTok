@@ -2,9 +2,16 @@
 
 import React from 'react';
 import './VideoCard.css'; // Ensure you have this CSS file for styling
-import LikeButton from './LikeButton'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { likeVideo } from '../redux/actions/videoActions';
 
 const VideoCard = ({ video }) => {
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token); // Retrieve token from Redux state
+
+  const handleLike = (videoId) => {
+    dispatch(likeVideo(videoId, token));
+  };
 
   return (
     <div className="video-card">
@@ -15,7 +22,7 @@ const VideoCard = ({ video }) => {
       <h3>{video.title}</h3>
       <p>{video.description}</p>
       <p>Likes: {video.likes}</p>
-      <LikeButton videoId={video.id} />
+      <button onClick={() => handleLike(video.id)}>Like</button>
     </div>
   );
 };

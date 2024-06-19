@@ -7,12 +7,15 @@ import {
   FETCH_PUBLIC_VIDEOS_FAILURE,
   UPLOAD_VIDEO_SUCCESS,
   SET_VIDEO_PRIVACY_SUCCESS,
+  LIKE_VIDEO_SUCCESS,
+  LIKE_VIDEO_FAILURE
 } from '../actionTypes';
 
 const initialState = {
   allVideos: [],
   userVideos: [],
   publicVideos: [],
+  likedVideo: null,
   error: null,
 };
 
@@ -65,6 +68,36 @@ const videoReducer = (state = initialState, action) => {
         ),
         error: null,
       };
+      // case LIKE_VIDEO_SUCCESS:
+      //   return {
+      //     ...state,
+      //     likedVideo: action.payload, // Update likedVideo with the response data
+      //     error: null,
+      //   };
+      // case LIKE_VIDEO_FAILURE:
+      //   return {
+      //     ...state,
+      //     error: action.payload, // Handle error case, clear likedVideo if needed
+      //   };
+      case LIKE_VIDEO_SUCCESS:
+        return {
+          ...state,
+          allVideos: state.allVideos.map(video =>
+            video.id === action.payload.id ? action.payload : video
+          ),
+          userVideos: state.userVideos.map(video =>
+            video.id === action.payload.id ? action.payload : video
+          ),
+          publicVideos: state.publicVideos.map(video =>
+            video.id === action.payload.id ? action.payload : video
+          ),
+          error: null,
+        };
+      case LIKE_VIDEO_FAILURE:
+        return {
+          ...state,
+          error: action.payload,
+        };
     default:
       return state;
   }
