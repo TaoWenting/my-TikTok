@@ -5,7 +5,9 @@ import VideoFeed from '../components/VideoFeed';
 
 const UserPage = ({ userId }) => { // Receive userId as props
   const dispatch = useDispatch();
-  const userVideos = useSelector(state => state.user.videos); // Access user videos from state
+  // const userVideos = useSelector(state => state.user.videos); // Access user videos from state
+  // const userVideos = useSelector(state => state.userVideos); // Adjusted state path
+  const userVideos = useSelector((state) => state.videos.userVideos);
   const token = useSelector(state => state.auth.token); // Retrieve token from Redux state
 
   useEffect(() => {

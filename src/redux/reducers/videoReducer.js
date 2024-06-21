@@ -15,7 +15,6 @@ const initialState = {
   allVideos: [],
   userVideos: [],
   publicVideos: [],
-  likedVideo: null,
   error: null,
 };
 
