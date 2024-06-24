@@ -9,7 +9,9 @@ import {
   FETCH_PUBLIC_VIDEOS_SUCCESS,
   FETCH_PUBLIC_VIDEOS_FAILURE,
   LIKE_VIDEO_SUCCESS,
-  LIKE_VIDEO_FAILURE
+  LIKE_VIDEO_FAILURE,
+  UNLIKE_VIDEO_SUCCESS,
+  UNLIKE_VIDEO_FAILURE
 } from '../actionTypes';
 
 // Action creators for video upload and privacy settings
@@ -110,30 +112,6 @@ export const fetchPublicVideos = () => {
   };
 };
 
-// export const likeVideo = (videoId, token) => async (dispatch) => {
-//   try {
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
-
-//     const response = await axios.post(`http://localhost:5000/api/videos/like/${videoId}`, {}, config);
-
-//     dispatch({
-//       type: LIKE_VIDEO_SUCCESS,
-//       payload: response.data, // Assuming the API returns the updated video object
-//     });
-
-//   } catch (error) {
-//     console.error('Error liking video:', error);
-//     dispatch({
-//       type: LIKE_VIDEO_FAILURE,
-//       payload: error.message || 'Failed to like video',
-//     });
-//   }
-// };
-
 export const likeVideoSuccess = (updatedVideo) => {
   return {
     type: LIKE_VIDEO_SUCCESS,
@@ -163,20 +141,29 @@ export const likeVideo = (videoId, token) => async (dispatch) => {
     dispatch(likeVideoFailure(error.message || 'Failed to like video'));
   }
 };
-// export const likeVideo = (videoId, token) => async (dispatch) => {
-//   try {
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
 
-//     const response = await axios.post(`http://localhost:5000/api/videos/like/${videoId}`, {}, config);
+export const unlikeVideoSuccess = (updatedVideo) => ({
+  type: UNLIKE_VIDEO_SUCCESS,
+  payload: updatedVideo
+});
 
-//     dispatch(likeVideoSuccess(response.data));
+export const unlikeVideoFailure = (error) => ({
+  type: UNLIKE_VIDEO_FAILURE,
+  payload: error
+});
 
-//   } catch (error) {
-//     console.error('Error liking video:', error);
-//     dispatch(likeVideoFailure(error.message || 'Failed to like video'));
-//   }
-// };
+export const unlikeVideo = (videoId, token) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const response = await axios.post(`http://localhost:5000/api/videos/unlike/${videoId}`, {}, config);
+    dispatch(unlikeVideoSuccess(response.data));
+    return response.data;
+  } catch (error) {
+    console.error('Error unliking video:', error);
+    dispatch(unlikeVideoFailure(error.message || 'Failed to unlike video'));
+  }
+};

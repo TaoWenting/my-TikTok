@@ -8,13 +8,16 @@ import {
   UPLOAD_VIDEO_SUCCESS,
   SET_VIDEO_PRIVACY_SUCCESS,
   LIKE_VIDEO_SUCCESS,
-  LIKE_VIDEO_FAILURE
+  LIKE_VIDEO_FAILURE,
+  UNLIKE_VIDEO_SUCCESS,
+  UNLIKE_VIDEO_FAILURE
 } from '../actionTypes';
 
 const initialState = {
   allVideos: [],
   userVideos: [],
   publicVideos: [],
+  likedVideos: {}, // New state to track liked videos
   error: null,
 };
 
@@ -67,17 +70,7 @@ const videoReducer = (state = initialState, action) => {
         ),
         error: null,
       };
-      // case LIKE_VIDEO_SUCCESS:
-      //   return {
-      //     ...state,
-      //     likedVideo: action.payload, // Update likedVideo with the response data
-      //     error: null,
-      //   };
-      // case LIKE_VIDEO_FAILURE:
-      //   return {
-      //     ...state,
-      //     error: action.payload, // Handle error case, clear likedVideo if needed
-      //   };
+
       case LIKE_VIDEO_SUCCESS:
         return {
           ...state,
@@ -90,6 +83,10 @@ const videoReducer = (state = initialState, action) => {
           publicVideos: state.publicVideos.map(video =>
             video.id === action.payload.id ? action.payload : video
           ),
+          likedVideos: {
+            ...state.likedVideos,
+            [action.payload.id]: true
+          },
           error: null,
         };
       case LIKE_VIDEO_FAILURE:
@@ -97,6 +94,30 @@ const videoReducer = (state = initialState, action) => {
           ...state,
           error: action.payload,
         };
+        case UNLIKE_VIDEO_SUCCESS:
+          return {
+            ...state,
+            allVideos: state.allVideos.map(video =>
+              video.id === action.payload.id ? action.payload : video
+            ),
+            userVideos: state.userVideos.map(video =>
+              video.id === action.payload.id ? action.payload : video
+            ),
+            publicVideos: state.publicVideos.map(video =>
+              video.id === action.payload.id ? action.payload : video
+            ),
+            likedVideos: {
+              ...state.likedVideos,
+              [action.payload.id]: false
+            },
+            error: null,
+          };
+        case LIKE_VIDEO_FAILURE:
+        case UNLIKE_VIDEO_FAILURE:
+          return {
+            ...state,
+            error: action.payload,
+          };
     default:
       return state;
   }
