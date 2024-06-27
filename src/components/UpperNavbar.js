@@ -17,7 +17,7 @@ const UpperNavbar = () => {
     <AppBar position="fixed" className="upper-navbar">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          TikTok Clone
+          My TikTok
         </Typography>
         <div style={{ position: 'relative', borderRadius: '4px', backgroundColor: '#ffffff33', marginRight: '16px' }}>
           <div style={{ padding: '0 16px', height: '100%', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
