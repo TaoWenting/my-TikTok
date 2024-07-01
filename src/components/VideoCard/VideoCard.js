@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import './VideoCard.css'; // Ensure you have this CSS file for styling
-import LikeButton from './LikeButton';
-import CommentsSection from './CommentsSection';
+import LikeButton from '../LikeButton';
+import CommentsSection from '../Comment/CommentsSection';
 import { Button, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 
 const VideoCard = ({ video }) => {

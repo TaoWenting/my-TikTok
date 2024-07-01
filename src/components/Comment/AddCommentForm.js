@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addComment } from '../redux/actions/commentsActions';
+import { addComment } from '.././../redux/actions/commentsActions';
 
 const AddCommentForm = ({ videoId }) => {
   const [text, setText] = useState('');

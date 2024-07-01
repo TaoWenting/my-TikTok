@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchComments } from '../redux/actions/commentsActions';
+import { fetchComments } from '../../redux/actions/commentsActions';
 import Comment from './Comment';
 import AddCommentForm from './AddCommentForm';
 

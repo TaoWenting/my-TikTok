@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, InputBase, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { logout } from '../redux/actions/authActions';
+import { logout } from '../../redux/actions/authActions';
 
 const UpperNavbar = () => {
   const dispatch = useDispatch();

@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './pages/Home';
 import UserPage from './pages/UserPage';
 import UploadVideo from './pages/UploadVideo'; // Import the UploadVideo component
-import UpperNavbar from './components/UpperNavbar';
-import LowerNavbar from './components/LowerNavbar';
+import UpperNavbar from './components/navbar/UpperNavbar';
+import LowerNavbar from './components/navbar/LowerNavbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import './App.css';

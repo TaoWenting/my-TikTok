@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
+import '../components/styles/sharedStyles.css';  // Import the centralized stylesheet
 
 const Login = ({ onLogin }) => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Login = ({ onLogin }) => {
   }, [isAuthenticated, user, onLogin, navigate]);
 
   return (
-    <div>
+    <div className="container">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -40,6 +41,7 @@ const Login = ({ onLogin }) => {
           value={formData.email}
           onChange={handleChange}
           autoComplete="email"
+          className="form-field"
         />
         <input
           type="password"
@@ -48,10 +50,13 @@ const Login = ({ onLogin }) => {
           value={formData.password}
           onChange={handleChange}
           autoComplete="current-password"
+          className="form-field"
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="button">
+          Login
+        </button>
       </form>
-      {error && <p>{error.message || error}</p>}
+      {error && <p className="error-message">{error.message || error}</p>}
     </div>
   );
 };
