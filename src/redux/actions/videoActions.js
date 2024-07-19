@@ -11,7 +11,9 @@ import {
   LIKE_VIDEO_SUCCESS,
   LIKE_VIDEO_FAILURE,
   UNLIKE_VIDEO_SUCCESS,
-  UNLIKE_VIDEO_FAILURE
+  UNLIKE_VIDEO_FAILURE,
+  DELETE_VIDEO_SUCCESS,
+  DELETE_VIDEO_FAILURE
 } from '../actionTypes';
 
 // Action creators for video upload and privacy settings
@@ -165,5 +167,29 @@ export const unlikeVideo = (videoId, token) => async dispatch => {
   } catch (error) {
     console.error('Error unliking video:', error);
     dispatch(unlikeVideoFailure(error.message || 'Failed to unlike video'));
+  }
+};
+export const deleteVideoSuccess = (videoId) => ({
+  type: DELETE_VIDEO_SUCCESS,
+  payload: videoId
+});
+
+export const deleteVideoFailure = (error) => ({
+  type: DELETE_VIDEO_FAILURE,
+  payload: error
+});
+
+export const deleteVideo = (videoId, token) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    await axios.delete(`http://localhost:5000/api/videos/${videoId}`, config);
+    dispatch(deleteVideoSuccess(videoId));
+  } catch (error) {
+    console.error('Error deleting video:', error);
+    dispatch(deleteVideoFailure(error.message || 'Failed to delete video'));
   }
 };

@@ -10,7 +10,9 @@ import {
   LIKE_VIDEO_SUCCESS,
   LIKE_VIDEO_FAILURE,
   UNLIKE_VIDEO_SUCCESS,
-  UNLIKE_VIDEO_FAILURE
+  UNLIKE_VIDEO_FAILURE,
+  DELETE_VIDEO_SUCCESS,
+  DELETE_VIDEO_FAILURE
 } from '../actionTypes';
 
 const initialState = {
@@ -118,9 +120,21 @@ const videoReducer = (state = initialState, action) => {
             ...state,
             error: action.payload,
           };
+          case DELETE_VIDEO_SUCCESS:
+            return {
+              ...state,
+              allVideos: state.allVideos.filter(video => video.id !== action.payload),
+              userVideos: state.userVideos.filter(video => video.id !== action.payload),
+              publicVideos: state.publicVideos.filter(video => video.id !== action.payload),
+              error: null,
+            };
+          case DELETE_VIDEO_FAILURE:
+            return {
+              ...state,
+              error: action.payload,
+            };
     default:
       return state;
   }
 };
-
 export default videoReducer;
