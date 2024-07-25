@@ -7,6 +7,7 @@ import UpperNavbar from './components/navbar/UpperNavbar';
 import LowerNavbar from './components/navbar/LowerNavbar';
 import Register from './components/Register';
 import Login from './components/Login';
+import ChangePasswordForm from './components/ChangePasswordForm';
 import './App.css';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/change-password" element={<ChangePasswordForm />} />
             <Route path="/user" element={isAuthenticated ? <UserPage userId={userId} /> : <Navigate to="/login" />} />
             <Route path="/upload-video" element={isAuthenticated ? <UploadVideo /> : <Navigate to="/login" />} />
           </Routes>

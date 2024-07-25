@@ -36,6 +36,7 @@ const UpperNavbar = () => {
                 {user.username}
               </Typography>
             )}
+            <Button color="inherit" component={Link} to="/change-password">Forgot Password</Button>
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
           </div>
         ) : (

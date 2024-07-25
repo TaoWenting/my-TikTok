@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAILURE, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from '../actionTypes';
+import { REGISTER_SUCCESS, REGISTER_FAILURE, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE } from '../actionTypes';
 
 const initialState = {
   user: null,
@@ -32,6 +32,16 @@ const authReducer = (state = initialState, action) => {
         token: null,
         error: null,
       };
+      case CHANGE_PASSWORD_SUCCESS:
+        return {
+          ...state,
+          error: null,
+        };
+      case CHANGE_PASSWORD_FAILURE:
+        return {
+          ...state,
+          error: action.payload,
+        };
     default:
       return state;
   }
